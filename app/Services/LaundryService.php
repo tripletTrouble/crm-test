@@ -5,6 +5,7 @@ use App\Models\LaundryBaseRate;
 use App\Models\LaundryCustomer;
 use App\Models\LaundrySpecialService;
 use App\Models\LaundryTransaction;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class LaundryService
 {
@@ -46,9 +47,9 @@ class LaundryService
         return LaundryCustomer::find($id);
     }
 
-    public static function searchCustomerByName(string $name): array
+    public static function searchCustomerByName(string $name): LengthAwarePaginator
     {
-        return LaundryCustomer::where('name', 'like', "%{$name}%")->get()->toArray();
+        return LaundryCustomer::where('name', 'like', "%{$name}%")->paginate(10);
     }
 
     public static function createBaseRate(array $base_rate_data): LaundryBaseRate
