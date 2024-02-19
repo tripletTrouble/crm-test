@@ -10,9 +10,16 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class LaundryCustomerTest extends TestCase
 {
     use RefreshDatabase;
-    /**
-     * A basic feature test example.
-     */
+    
+    public function test_with_unauthenticated_user(): void
+    {
+        $response = $this->deleteJson('api/laundry/customers/1');
+        $response->assertUnauthorized();
+
+        $response = $this->getJson('api/laundry/customers');
+        $response->assertUnauthorized();
+    }
+
     public function test_get_all_customers(): void
     {
         $user = $this->createUser();
