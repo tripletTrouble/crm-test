@@ -20,3 +20,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 include __DIR__ . '/auth/auth.php';
 include __DIR__ . '/laundry/customers.php';
+include __DIR__ . '/laundry/baserates.php';
+include __DIR__ . '/laundry/specialservices.php';
+include __DIR__ . '/laundry/transactions.php';

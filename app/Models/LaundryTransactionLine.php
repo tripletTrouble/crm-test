@@ -14,11 +14,11 @@ class LaundryTransactionLine extends Model
 
     public function baseRate(): BelongsTo
     {
-        return $this->belongsTo(LaundryBaseRate::class);
+        return $this->belongsTo(LaundryBaseRate::class, 'laundry_base_rate_id', 'id');
     }
 
     public function specialService(): BelongsTo
     {
-        return $this->belongsTo(LaundrySpecialService::class);
+        return $this->belongsTo(LaundrySpecialService::class, 'laundry_special_service_id', 'id');
     }
 }

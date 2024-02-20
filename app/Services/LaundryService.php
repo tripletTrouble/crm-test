@@ -83,9 +83,9 @@ class LaundryService
         return $base_rate;
     }
 
-    public static function searchBaseRateByName(string $name): array
+    public static function searchBaseRateByName(string $name): LengthAwarePaginator
     {
-        return LaundryBaseRate::where('name', 'like', "%{$name}%")->get()->toArray();
+        return LaundryBaseRate::where('name', 'like', "%{$name}%")->paginate(10);
     }
 
     public static function deleteBaseRate(int $id): LaundryBaseRate | null
@@ -132,9 +132,9 @@ class LaundryService
         return $special_service;
     }
 
-    public static function searchSpecialServiceByName(string $name): array | null
+    public static function searchSpecialServiceByName(string $name): LengthAwarePaginator
     {
-        return LaundrySpecialService::where('name', 'like', "%{$name}%")->get()->toArray();
+        return LaundrySpecialService::where('name', 'like', "%{$name}%")->paginate(10);
     }
 
     public static function deleteSpecialService(int $id): LaundrySpecialService | null
@@ -166,7 +166,7 @@ class LaundryService
             $transaction = $cust->transactions()->create($transaction_data);
             $transaction->lines()->createMany($lines);
 
-            return $transaction;
+            return $transaction->load('customer');
         }
 
         return null;
@@ -193,7 +193,7 @@ class LaundryService
             $tx->lines()->delete();
             $tx->lines()->createMany($lines);
 
-            return $tx;
+            return $tx->load('lines', 'customer');
         }
 
         return null;
@@ -201,7 +201,7 @@ class LaundryService
 
     public static function findTransaction(int $id): LaundryTransaction | null
     {
-        return LaundryTransaction::with('lines')->find($id);
+        return LaundryTransaction::with('lines', 'customer')->find($id);
     }
 
     public static function deleteTransaction(int $id): LaundryTransaction | null

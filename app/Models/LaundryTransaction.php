@@ -20,6 +20,6 @@ class LaundryTransaction extends Model
 
     public function customer(): BelongsTo
     {
-        return $this->belongsTo(LaundryCustomer::class);
+        return $this->belongsTo(LaundryCustomer::class, 'laundry_customer_id', 'id');
     }
 }
